@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { wingBadge } from '../lib/utils';
+
+const downloads = (await getCollection('downloads')).sort((a, b) => a.data.order - b.data.order);
+const missingFiles = downloads.some((d) => !d.data.file);
+---
+<BaseLayout
+  title="Downloads — Mayur Children Sr. Sec. School, Badu"
+  description="Forms, circulars, syllabus, bus routes and holiday lists — downloadable documents for both wings."
+>
+  <PageHero crumb="Downloads" title="Downloads · डाउनलोड" subtitle="Forms, circulars, syllabus and lists — for both wings." />
+
+  <div class="container section">
+    <div class="card rowlist">
+      {downloads.map((d) => {
+        const badge = wingBadge[d.data.wing];
+        return (
+          <div class="dl-row">
+            <span class={badge.cls} style="width:76px;text-align:center">{badge.label.split(' · ')[0]}</span>
+            <span class="dl-title">{d.data.title}</span>
+            {d.data.size && <span class="dl-size">{d.data.size}</span>}
+            {d.data.file ? (
+              <a href={d.data.file} class="btn btn-green dl-btn" download>Download</a>
+            ) : (
+              <span class="btn dl-btn dl-pending" title="File not uploaded yet">Coming soon</span>
+            )}
+          </div>
+        );
+      })}
+    </div>
+    {missingFiles && (
+      <p class="dl-note">Documents marked "coming soon" will be available once the school office uploads them.</p>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .dl-row { display: flex; gap: 14px; padding: 15px 22px; align-items: center; flex-wrap: wrap; }
+  .dl-title { font-weight: 700; font-size: 15px; flex: 1; color: var(--green-deep); min-width: 200px; }
+  .dl-size { font-size: 13px; color: var(--ink-date); white-space: nowrap; }
+  .dl-btn { font-size: 13px; padding: 8px 18px; }
+  .dl-pending { background: var(--bg-row-head); color: var(--ink-label); border: 1px dashed var(--tan); cursor: default; }
+  .dl-note { margin: 16px 0 0; font-size: 13.5px; color: var(--ink-label); }
+</style>

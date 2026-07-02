@@ -1,0 +1,18 @@
+wing: english
+teacherCount: 32
+principal:
+  name: "Mrs. S. Thomas"
+  title: "Principal — English Medium Wing"
+  bio: "M.A. (English), B.Ed. · 22 years in education · with the school since 2009."
+teachers:
+  - name: "Mr. D. Joseph"
+    role: "Vice Principal · Mathematics, IX–XII"
+  - name: "Ms. R. Kapoor"
+    role: "Science coordinator · Physics, XI–XII"
+  - name: "Mrs. A. Fernandes"
+    role: "Primary in-charge · Nursery–V"
+  - name: "Mr. K. Singh"
+    role: "English & Social Science, VI–X"
+  - name: "Ms. N. Verma"
+    role: "Chemistry & Biology, IX–XII"
+moreNote: "+ 27 more teachers — full list available at the wing office"

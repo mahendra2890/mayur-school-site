@@ -1,0 +1,75 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import WingTabs from '../components/WingTabs.astro';
+import Avatar from '../components/Avatar.astro';
+
+const faculty = await getCollection('faculty');
+const byWing = Object.fromEntries(faculty.map((f) => [f.data.wing, f.data]));
+const wings = [
+  { key: 'english', data: byWing.english, ring: 'blue' as const, accent: 'var(--blue)', countLabel: 'teachers in wing' },
+  { key: 'hindi', data: byWing.hindi, ring: 'gold' as const, accent: 'var(--gold-dark)', countLabel: 'शिक्षक विंग में' },
+];
+---
+<BaseLayout
+  title="Faculty & Staff — Mayur Children Sr. Sec. School, Badu"
+  description="Teachers and staff of both wings of Mayur Children Sr. Sec. School — each wing has its own dedicated faculty under one shared management."
+>
+  <PageHero crumb="Faculty & Staff" title="Faculty & Staff · शिक्षक एवं कर्मचारी" subtitle="Each wing has its own dedicated teachers, under one shared management." />
+
+  <div class="container section">
+    <WingTabs />
+    {wings.map((w) => (
+      <div class="wing-panel" data-wing={w.key} hidden>
+        <div class="card principal-card" style={`border-left:4px solid ${w.accent}`}>
+          <Avatar photo={w.data.principal.photo} name={w.data.principal.name} size={84} ring={w.ring} />
+          <div class="principal-info">
+            <div class="principal-name">{w.data.principal.name}</div>
+            <div class="principal-title" style={`color:${w.accent}`}>{w.data.principal.title}</div>
+            <p>{w.data.principal.bio}</p>
+          </div>
+          <div class="principal-count">
+            <div class="count-num" style={`color:${w.accent}`}>{w.data.teacherCount}</div>
+            <div class="count-label">{w.countLabel}</div>
+          </div>
+        </div>
+        <div class="grid grid-3">
+          {w.data.teachers.map((t) => (
+            <div class="card teacher-card">
+              <Avatar photo={t.photo} name={t.name} size={56} ring={w.ring} />
+              <div>
+                <div class="teacher-name">{t.name}</div>
+                <div class="teacher-role">{t.role}</div>
+              </div>
+            </div>
+          ))}
+          {w.data.moreNote && <div class="more-card">{w.data.moreNote}</div>}
+        </div>
+      </div>
+    ))}
+    <div class="note-box" style="margin-top:26px">
+      <strong>Shared management:</strong> Chairman, Director and the administrative office serve both wings — see <a href="/about" style="font-weight:700;text-decoration:none">About Us</a>.
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .principal-card { padding: 22px 26px; display: flex; gap: 20px; align-items: center; margin-bottom: 26px; flex-wrap: wrap; }
+  .principal-info { flex: 1; min-width: 220px; }
+  .principal-name { font-family: var(--font-serif); font-weight: 600; font-size: 21px; color: var(--green-deep); }
+  .principal-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .principal-info p { margin: 0; font-size: 14.5px; color: var(--ink-muted); line-height: 1.55; }
+  .principal-count { text-align: center; flex: none; padding: 0 10px; }
+  .count-num { font-family: var(--font-serif); font-weight: 700; font-size: 30px; }
+  .count-label { font-size: 13px; color: var(--ink-muted); }
+
+  .teacher-card { padding: 18px; display: flex; gap: 14px; align-items: center; }
+  .teacher-name { font-weight: 700; font-size: 15.5px; color: var(--green-deep); }
+  .teacher-role { font-size: 13px; color: var(--ink-muted); }
+  .more-card {
+    background: var(--bg-row-head); border: 1px dashed var(--tan); border-radius: var(--radius);
+    padding: 18px; display: flex; align-items: center; justify-content: center; text-align: center;
+    font-size: 13.5px; color: var(--ink-label); line-height: 1.5;
+  }
+</style>

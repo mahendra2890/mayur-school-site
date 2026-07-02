@@ -1,0 +1,111 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const site = (await getEntry('settings', 'site'))!.data;
+
+const documents = [
+  'Birth certificate (जन्म प्रमाण पत्र)',
+  'Transfer certificate — Class II onwards',
+  'Previous report card (पिछली अंकतालिका)',
+  'Aadhaar of child & parents',
+  '4 passport-size photographs',
+];
+
+const ages = [
+  { cls: 'Nursery', age: '3+ years by 31 March' },
+  { cls: 'LKG', age: '4+ years' },
+  { cls: 'UKG', age: '5+ years' },
+  { cls: 'Class I', age: '6+ years' },
+];
+---
+<BaseLayout
+  title="Admissions — Mayur Children Sr. Sec. School, Badu"
+  description={`Admission process, documents and age eligibility for session ${site.session}. One process for both English and Hindi medium wings.`}
+>
+  <PageHero crumb="Admissions" title="Admissions · प्रवेश" subtitle={`One process for both mediums — choose your wing on the form. Session ${site.session}.`} />
+
+  <div class="container section">
+    <h2 class="section-title">How admission works</h2>
+    <div class="grid grid-4">
+      <div class="card card-pad">
+        <div class="step-num">1</div>
+        <div class="step-title">Collect the form</div>
+        <p class="step-text">From the school office (either wing) or the <a href="/downloads">Downloads</a> page. फॉर्म कार्यालय से भी मिलेगा।</p>
+      </div>
+      <div class="card card-pad">
+        <div class="step-num">2</div>
+        <div class="step-title">Submit with documents</div>
+        <p class="step-text">Tick your medium — English or हिंदी — and attach the documents listed below.</p>
+      </div>
+      <div class="card card-pad">
+        <div class="step-num">3</div>
+        <div class="step-title">Interaction / test</div>
+        <p class="step-text">Informal interaction up to Class I; short written test for Class II onwards.</p>
+      </div>
+      <div class="card card-pad">
+        <div class="step-num">4</div>
+        <div class="step-title">Confirm the seat</div>
+        <p class="step-text">Pay the admission fee of your wing within 7 days. See <a href="/fees">Fees</a>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container section detail-grid" style="padding-top:0">
+    <div class="card card-pad">
+      <h3>Documents required · आवश्यक दस्तावेज़</h3>
+      <div class="doc-list">
+        {documents.map((d) => (
+          <div class="doc-item"><span>✓</span>{d}</div>
+        ))}
+      </div>
+    </div>
+    <div>
+      <div class="card card-pad" style="margin-bottom:18px">
+        <h3>Age eligibility</h3>
+        <table class="age-table">
+          <tbody>
+            {ages.map((a) => (
+              <tr><td>{a.cls}</td><td>{a.age}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div class="note-box office-note">
+        <div>
+          <div class="office-title">Office hours for admission</div>
+          <div class="office-sub">Mon–Sat, 9:00 AM – 1:00 PM · both wing offices</div>
+        </div>
+        <a href="/contact" class="btn btn-green">Reach us →</a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .step-num {
+    width: 34px; height: 34px; border-radius: 50%; background: var(--gold); color: var(--green-deep);
+    font-weight: 700; display: flex; align-items: center; justify-content: center; font-size: 16px; margin-bottom: 10px;
+  }
+  .step-title { font-weight: 700; font-size: 15.5px; color: var(--green-deep); margin-bottom: 4px; }
+  .step-text { margin: 0; font-size: 13.5px; color: var(--ink-muted); line-height: 1.55; }
+  .step-text a { font-weight: 700; text-decoration: none; }
+
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+  @media (max-width: 800px) { .detail-grid { grid-template-columns: 1fr; } }
+  h3 { margin: 0 0 14px; font-size: 20px; }
+  .doc-list { display: flex; flex-direction: column; gap: 10px; font-size: 14.5px; color: var(--ink-body); }
+  .doc-item { display: flex; gap: 10px; }
+  .doc-item span { color: var(--gold); font-weight: 700; }
+
+  .age-table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  .age-table td { padding: 8px 0; border-bottom: 1px solid var(--divider); }
+  .age-table tr:last-child td { border-bottom: none; }
+  .age-table td:first-child { font-weight: 600; color: var(--green-deep); }
+  .age-table td:last-child { color: var(--ink-muted); text-align: right; }
+
+  .office-note { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .office-title { font-weight: 700; font-size: 15.5px; color: var(--green-deep); }
+  .office-sub { font-size: 13.5px; color: var(--ink-muted); }
+</style>

@@ -1,0 +1,271 @@
+# Sveltia CMS configuration — the admin panel at /admin
+#
+# SETUP (one-time, see README.md):
+#   1. Replace REPLACE-WITH-GITHUB-USER/mayur-school-site with the real repo.
+#   2. Deploy the sveltia-cms-auth Cloudflare Worker and put its URL in base_url.
+
+backend:
+  name: github
+  repo: REPLACE-WITH-GITHUB-USER/mayur-school-site
+  branch: main
+  base_url: https://REPLACE-WITH-AUTH-WORKER.workers.dev
+
+media_folder: public/uploads
+public_folder: /uploads
+
+site_url: https://mayur-school-site.pages.dev
+display_url: https://mayur-school-site.pages.dev
+
+collections:
+  - name: announcements
+    label: Announcements · सूचनाएँ
+    label_singular: Announcement
+    folder: src/content/announcements
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: "Title (English or Hindi) · शीर्षक", widget: string }
+      - { name: date, label: "Date · दिनांक", widget: datetime, format: "YYYY-MM-DD", time_format: false }
+      - name: wing
+        label: "Which wing? · कौन सा विंग?"
+        widget: select
+        options:
+          - { label: "Both wings · दोनों", value: both }
+          - { label: "English Medium", value: english }
+          - { label: "हिंदी माध्यम", value: hindi }
+        default: both
+      - { name: body, label: "Details · विवरण", widget: markdown }
+
+  - name: events
+    label: Calendar events · कैलेंडर
+    label_singular: Event
+    folder: src/content/events
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: "Event name · कार्यक्रम", widget: string }
+      - { name: detail, label: "Details (time, classes, venue)", widget: string }
+      - { name: date, label: "Date · दिनांक", widget: datetime, format: "YYYY-MM-DD", time_format: false }
+      - { name: body, label: "(leave empty)", widget: hidden, default: "" }
+
+  - name: results
+    label: Results & Toppers · परिणाम
+    files:
+      - name: english
+        label: English Medium results
+        file: src/content/results/english.yaml
+        fields: &results_fields
+          - { name: wing, widget: hidden }
+          - { name: year, label: "Result year (e.g. 2026)", widget: number, value_type: int }
+          - { name: passRate12, label: "Class XII pass rate (e.g. 98%)", widget: string }
+          - { name: above90, label: "Students above 90%", widget: number, value_type: int }
+          - name: toppers
+            label: "Toppers (current year)"
+            widget: list
+            fields:
+              - { name: name, label: Name, widget: string }
+              - { name: stream, label: "Class & stream (e.g. XII · Science)", widget: string }
+              - { name: percent, label: "Percentage (e.g. 97.4%)", widget: string }
+              - { name: photo, label: Photo, widget: image, required: false }
+          - name: history
+            label: "Previous batches"
+            widget: list
+            fields:
+              - { name: batch, label: "Batch year", widget: string }
+              - { name: pass10, label: "Class X pass %", widget: string }
+              - { name: pass12, label: "Class XII pass %", widget: string }
+              - { name: topper, label: "Topper (name · %)", widget: string }
+      - name: hindi
+        label: "हिंदी माध्यम results"
+        file: src/content/results/hindi.yaml
+        fields: *results_fields
+
+  - name: faculty
+    label: Faculty & Staff · शिक्षक
+    files:
+      - name: english
+        label: English Medium faculty
+        file: src/content/faculty/english.yaml
+        fields: &faculty_fields
+          - { name: wing, widget: hidden }
+          - { name: teacherCount, label: "Total teachers in wing", widget: number, value_type: int }
+          - name: principal
+            label: Principal
+            widget: object
+            fields:
+              - { name: name, label: Name, widget: string }
+              - { name: title, label: "Title (e.g. Principal — English Medium Wing)", widget: string }
+              - { name: bio, label: "Qualifications & experience", widget: string }
+              - { name: photo, label: Photo, widget: image, required: false }
+          - name: teachers
+            label: "Key teachers (shown on the website)"
+            widget: list
+            fields:
+              - { name: name, label: Name, widget: string }
+              - { name: role, label: "Role & subjects", widget: string }
+              - { name: photo, label: Photo, widget: image, required: false }
+          - { name: moreNote, label: "Note about remaining teachers", widget: string, required: false }
+      - name: hindi
+        label: "हिंदी माध्यम faculty"
+        file: src/content/faculty/hindi.yaml
+        fields: *faculty_fields
+
+  - name: fees
+    label: Fee Structure · शुल्क
+    files:
+      - name: english
+        label: English Medium fees
+        file: src/content/fees/english.yaml
+        fields: &fees_fields
+          - { name: wing, widget: hidden }
+          - name: headers
+            label: "Table headings (change language here)"
+            widget: object
+            collapsed: true
+            fields:
+              - { name: group, label: "Column 1", widget: string }
+              - { name: admission, label: "Column 2", widget: string }
+              - { name: tuition, label: "Column 3", widget: string }
+              - { name: annual, label: "Column 4", widget: string }
+          - name: rows
+            label: "Fee rows"
+            widget: list
+            fields:
+              - { name: group, label: "Class group", widget: string }
+              - { name: admission, label: "Admission fee (one-time)", widget: string }
+              - { name: tuition, label: "Tuition / month", widget: string }
+              - { name: annual, label: "Annual charges", widget: string }
+      - name: hindi
+        label: "हिंदी माध्यम fees"
+        file: src/content/fees/hindi.yaml
+        fields: *fees_fields
+
+  - name: gallery
+    label: Gallery · गैलरी
+    label_singular: Photo
+    folder: src/content/gallery
+    create: true
+    extension: md
+    format: frontmatter
+    sortable_fields: [order, title]
+    fields:
+      - { name: title, label: "Caption · शीर्षक", widget: string }
+      - name: category
+        label: "Category · श्रेणी"
+        widget: select
+        options:
+          - { label: "Events · कार्यक्रम", value: events }
+          - { label: "Sports · खेल", value: sports }
+          - { label: "Campus · परिसर", value: campus }
+          - { label: "Celebrations · उत्सव", value: celebrations }
+      - { name: image, label: "Photo · फ़ोटो", widget: image, required: false }
+      - { name: order, label: "Display order (small numbers first)", widget: number, value_type: int, default: 0 }
+      - { name: body, label: "(leave empty)", widget: hidden, default: "" }
+
+  - name: downloads
+    label: Downloads · डाउनलोड
+    label_singular: Document
+    folder: src/content/downloads
+    create: true
+    extension: md
+    format: frontmatter
+    sortable_fields: [order, title]
+    fields:
+      - { name: title, label: "Document name · दस्तावेज़", widget: string }
+      - name: wing
+        label: "Which wing? · कौन सा विंग?"
+        widget: select
+        options:
+          - { label: "Both wings · दोनों", value: both }
+          - { label: "English Medium", value: english }
+          - { label: "हिंदी माध्यम", value: hindi }
+        default: both
+      - { name: file, label: "PDF file · फ़ाइल", widget: file, required: false }
+      - { name: size, label: "Size label (e.g. PDF · 320 KB)", widget: string, required: false }
+      - { name: order, label: "Display order", widget: number, value_type: int, default: 0 }
+      - { name: body, label: "(leave empty)", widget: hidden, default: "" }
+
+  - name: achievements
+    label: Achievements · उपलब्धियाँ
+    label_singular: Achievement
+    folder: src/content/achievements
+    create: true
+    extension: md
+    format: frontmatter
+    sortable_fields: [order, year]
+    fields:
+      - { name: level, label: "Level (e.g. STATE LEVEL)", widget: string }
+      - { name: year, label: Year, widget: string }
+      - { name: title, label: Title, widget: string }
+      - { name: description, label: Description, widget: text }
+      - { name: order, label: "Display order", widget: number, value_type: int, default: 0 }
+      - { name: body, label: "(leave empty)", widget: hidden, default: "" }
+
+  - name: alumni
+    label: Alumni · पूर्व छात्र
+    label_singular: Alumnus
+    folder: src/content/alumni
+    create: true
+    extension: md
+    format: frontmatter
+    sortable_fields: [order, name]
+    fields:
+      - { name: name, label: Name, widget: string }
+      - { name: batch, label: "Batch & achievement (e.g. Batch 2012 · MBBS, AIIMS)", widget: string }
+      - { name: detail, label: "Short detail", widget: string }
+      - { name: quote, label: "Quote · कथन", widget: text }
+      - name: wing
+        label: "Wing studied in"
+        widget: select
+        options:
+          - { label: "English Medium", value: english }
+          - { label: "हिंदी माध्यम", value: hindi }
+      - { name: photo, label: Photo, widget: image, required: false }
+      - { name: order, label: "Display order", widget: number, value_type: int, default: 0 }
+      - { name: body, label: "(leave empty)", widget: hidden, default: "" }
+
+  - name: settings
+    label: Site Settings · सेटिंग्स
+    files:
+      - name: site
+        label: "School details & homepage"
+        file: src/content/settings/site.yaml
+        fields:
+          - { name: admissionsOpen, label: "Show 'Admissions open' banner?", widget: boolean }
+          - { name: admissionsTickerText, label: "Banner text", widget: string }
+          - { name: session, label: "Current session (e.g. 2026–27)", widget: string }
+          - { name: phone, label: "School phone", widget: string }
+          - { name: email, label: "School email", widget: string }
+          - { name: addressLines, label: "Address lines", widget: list, field: { name: line, label: Line, widget: string } }
+          - { name: schoolHours, label: "School hours", widget: string }
+          - { name: officeHours, label: "Office hours", widget: string }
+          - { name: web3formsKey, label: "Web3Forms access key (for the enquiry form)", widget: string }
+          - { name: mapEmbedUrl, label: "Google Maps embed URL (optional)", widget: string, required: false }
+          - name: stats
+            label: "Homepage statistics"
+            widget: list
+            fields:
+              - { name: value, label: "Number (e.g. 1,200+)", widget: string }
+              - { name: label, label: "Label", widget: string }
+      - name: calendar
+        label: "Terms & holidays"
+        file: src/content/settings/calendar.yaml
+        fields:
+          - name: terms
+            label: "Session at a glance"
+            widget: list
+            fields:
+              - { name: name, label: "Name (e.g. Term 1)", widget: string }
+              - { name: range, label: "Dates (e.g. 1 April – 30 September)", widget: string }
+          - name: holidays
+            label: "Key holidays"
+            widget: list
+            fields:
+              - { name: name, label: "Holiday name", widget: string }
+              - { name: date, label: "Date(s)", widget: string }

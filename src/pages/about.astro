@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const milestones = [
+  { year: '1998', title: 'Founded', text: 'Opened with primary classes and 4 teachers in Badu.' },
+  { year: '2006', title: 'Senior Secondary', text: 'Affiliated up to Class XII; first board batch graduates.' },
+  { year: '2014', title: 'Two wings', text: 'Dedicated English Medium building opens; wings get their own faculty.' },
+  { year: 'Today', title: '1,200+ students', text: 'Consistent 95%+ board results across both mediums.' },
+];
+
+const board = [
+  { name: 'Shri R. K. Saini', role: 'Chairman · अध्यक्ष', text: 'Founder of the school and its guiding hand for 28 years.' },
+  { name: 'Smt. Meena Saini', role: 'Director · निदेशक', text: 'Oversees academics and welfare across both wings.' },
+  { name: 'Shri A. Sharma', role: 'Administrator · प्रशासक', text: 'Manages operations, transport and facilities.' },
+];
+
+const facilities = [
+  { title: 'Library · पुस्तकालय', text: '8,000+ books in English and Hindi, reading periods for every class.', ph: 'ph-blue', label: 'photo: library' },
+  { title: 'Science labs · प्रयोगशालाएँ', text: 'Physics, chemistry and biology labs shared by both wings on schedule.', ph: 'ph-gold', label: 'photo: science labs' },
+  { title: 'Playground · खेल मैदान', text: 'Cricket, kabaddi and athletics ground used by the whole school.', ph: 'ph-green', label: 'photo: playground' },
+];
+---
+<BaseLayout
+  title="About Us — Mayur Children Sr. Sec. School, Badu"
+  description="The story of Mayur Children Sr. Sec. School — serving Badu since 1998 with English Medium and Hindi Medium wings under one management."
+>
+  <PageHero crumb="About Us" title="About Us · हमारे बारे में" />
+
+  <div class="container section intro-grid">
+    <div>
+      <div class="motto">ज्ञानं परमं बलम् · KNOWLEDGE IS STRENGTH</div>
+      <h2>A school Badu has trusted since 1998</h2>
+      <p>Mayur Children Sr. Sec. School began with a handful of classrooms and a simple belief — that every child of Badu deserves an education that is both rigorous and kind. Today, over 1,200 students learn across our two wings.</p>
+      <p>The English Medium and हिंदी माध्यम wings run as sister institutions: each with its own building, teachers and fee structure, under one management and one board — so no child's medium ever decides their opportunity.</p>
+    </div>
+    <div class="ph ph-cream intro-photo">photo: school building / founders</div>
+  </div>
+
+  <div class="container section" style="padding-top:0">
+    <h2 class="section-title">Our journey</h2>
+    <div class="grid grid-4">
+      {milestones.map((m) => (
+        <div class="card card-pad">
+          <div class="mile-year">{m.year}</div>
+          <div class="mile-title">{m.title}</div>
+          <p class="mile-text">{m.text}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="board-band">
+    <div class="container">
+      <h2 class="board-head">Management &amp; Board</h2>
+      <p class="board-sub">One board guides both wings · दोनों विंग एक ही प्रबंधन के अंतर्गत</p>
+      <div class="grid grid-3">
+        {board.map((b) => (
+          <div class="board-card">
+            <div class="ph board-photo">photo</div>
+            <div class="board-name">{b.name}</div>
+            <div class="board-role">{b.role}</div>
+            <p>{b.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="container section">
+    <h2 class="section-title">Campus &amp; facilities</h2>
+    <div class="grid grid-3">
+      {facilities.map((f) => (
+        <div class="card" style="overflow:hidden">
+          <div class:list={['ph', f.ph]} style="height:130px;font-size:11px">{f.label}</div>
+          <div style="padding:16px 20px">
+            <div class="fac-title">{f.title}</div>
+            <p class="fac-text">{f.text}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .intro-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 36px; align-items: start; }
+  @media (max-width: 800px) { .intro-grid { grid-template-columns: 1fr; } }
+  .motto { font-size: 14px; letter-spacing: .14em; color: var(--gold-dark); font-weight: 700; margin-bottom: 10px; }
+  .intro-grid h2 { margin: 0 0 14px; font-size: 28px; }
+  .intro-grid p { margin: 0 0 14px; color: var(--ink-body); line-height: 1.7; }
+  .intro-photo { height: 280px; border-radius: var(--radius); border: 1px dashed var(--tan); font-size: 12px; }
+
+  .mile-year { font-family: var(--font-serif); font-weight: 700; font-size: 24px; color: var(--gold); }
+  .mile-title { font-weight: 700; font-size: 15px; margin: 4px 0; color: var(--green-deep); }
+  .mile-text { margin: 0; font-size: 13.5px; color: var(--ink-muted); line-height: 1.5; }
+
+  .board-band { background: var(--green-deep); padding: 40px 0; }
+  .board-head { margin: 0 0 6px; font-size: 26px; color: var(--cream-bright); }
+  .board-sub { margin: 0 0 24px; font-size: 15px; color: var(--tan); }
+  .board-card {
+    background: rgba(242, 235, 218, .07); border: 1px solid rgba(242, 235, 218, .18);
+    border-radius: var(--radius); padding: 22px; text-align: center;
+  }
+  .board-photo {
+    width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 12px;
+    background: repeating-linear-gradient(45deg, rgba(242,235,218,.14), rgba(242,235,218,.14) 8px, rgba(242,235,218,.06) 8px, rgba(242,235,218,.06) 16px);
+    border: 2px solid var(--gold); color: var(--gold-bright); font-size: 9px;
+  }
+  .board-name { font-family: var(--font-serif); font-weight: 600; font-size: 18px; color: var(--cream-head); }
+  .board-role { font-size: 13.5px; color: var(--gold-bright); font-weight: 600; margin-bottom: 8px; }
+  .board-card p { margin: 0; font-size: 13.5px; color: var(--tan); line-height: 1.55; }
+
+  .fac-title { font-weight: 700; font-size: 16px; color: var(--green-deep); }
+  .fac-text { margin: 4px 0 0; font-size: 13.5px; color: var(--ink-muted); line-height: 1.5; }
+</style>

@@ -1,0 +1,87 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import WingTabs from '../components/WingTabs.astro';
+import Avatar from '../components/Avatar.astro';
+
+const results = await getCollection('results');
+const byWing = Object.fromEntries(results.map((r) => [r.data.wing, r.data]));
+const wings = [
+  { key: 'english', data: byWing.english, ring: 'blue' as const, accent: 'var(--blue)', statBg: 'var(--blue)', statInk: '#EDF2FB', subInk: '#C5D4EF', historyTitle: 'Previous batches — English Medium', cols: ['BATCH', 'CLASS X PASS', 'CLASS XII PASS', 'TOPPER'], passLabel: 'Class XII pass rate', aboveLabel: 'students above 90%', medium: 'English Medium' },
+  { key: 'hindi', data: byWing.hindi, ring: 'gold' as const, accent: 'var(--gold-dark)', statBg: 'var(--gold)', statInk: 'var(--green-deep)', subInk: 'var(--green-deep)', historyTitle: 'पिछले बैच — हिंदी माध्यम', cols: ['बैच', 'कक्षा X उत्तीर्ण', 'कक्षा XII उत्तीर्ण', 'टॉपर'], passLabel: 'कक्षा XII उत्तीर्ण दर', aboveLabel: 'विद्यार्थी 90% से ऊपर', medium: 'हिंदी माध्यम' },
+];
+---
+<BaseLayout
+  title="Results & Toppers — Mayur Children Sr. Sec. School, Badu"
+  description="Board results and toppers of Mayur Children Sr. Sec. School — batch-wise, for both English and Hindi medium wings."
+>
+  <PageHero crumb="Results & Toppers" title="Results & Toppers" subtitle="परिणाम एवं टॉपर्स · Batch-wise board results, wing by wing" />
+
+  <div class="container section">
+    <WingTabs />
+    {wings.map((w) => (
+      <div class="wing-panel" data-wing={w.key} hidden>
+        <div class="summary-grid">
+          <div class="stat-card" style={`background:${w.statBg};color:${w.statInk}`}>
+            <div class="stat-big">{w.data.passRate12}</div>
+            <div class="stat-sub" style={`color:${w.subInk}`}>{w.passLabel}<br />{w.data.year} · {w.medium}</div>
+            <div class="stat-mid">{w.data.above90}</div>
+            <div class="stat-sub2" style={`color:${w.subInk}`}>{w.aboveLabel}</div>
+          </div>
+          <div class="grid grid-3">
+            {w.data.toppers.map((t) => (
+              <div class="card topper-card">
+                <div class="topper-avatar"><Avatar photo={t.photo} name={t.name} size={74} ring={w.ring} /></div>
+                <div class="topper-name">{t.name}</div>
+                <div class="topper-stream">{t.stream}</div>
+                <div class="topper-pct" style={`color:${w.accent}`}>{t.percent}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <h3 class="history-title">{w.historyTitle}</h3>
+        <div class="card rowlist history-table">
+          <div class="h-row h-head">
+            {w.cols.map((c) => <span>{c}</span>)}
+          </div>
+          {w.data.history.map((h) => (
+            <div class="h-row">
+              <span class="h-batch">{h.batch}</span>
+              <span>{h.pass10}</span>
+              <span>{h.pass12}</span>
+              <span class="h-topper">{h.topper}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  .summary-grid { display: grid; grid-template-columns: 230px 1fr; gap: 24px; align-items: start; margin-bottom: 30px; }
+  @media (max-width: 800px) { .summary-grid { grid-template-columns: 1fr; } }
+  .stat-card { border-radius: var(--radius); padding: 26px; }
+  .stat-big { font-family: var(--font-serif); font-weight: 700; font-size: 42px; line-height: 1; }
+  .stat-mid { font-family: var(--font-serif); font-weight: 700; font-size: 28px; line-height: 1; }
+  .stat-sub { font-size: 14px; margin: 4px 0 18px; font-weight: 600; }
+  .stat-sub2 { font-size: 14px; margin-top: 4px; font-weight: 600; }
+
+  .topper-card { padding: 20px; text-align: center; }
+  .topper-avatar { display: flex; justify-content: center; margin-bottom: 10px; }
+  .topper-name { font-weight: 700; font-size: 16px; color: var(--green-deep); }
+  .topper-stream { font-size: 13px; color: var(--ink-muted); margin-bottom: 6px; }
+  .topper-pct { font-family: var(--font-serif); font-weight: 700; font-size: 21px; }
+
+  .history-title { margin: 0 0 14px; font-size: 21px; }
+  .h-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1.4fr; padding: 13px 22px; font-size: 14.5px; gap: 8px; }
+  .h-head { background: var(--bg-row-head); font-weight: 700; font-size: 13px; color: var(--ink-label); letter-spacing: .06em; }
+  .h-batch { font-weight: 700; color: var(--green-deep); }
+  .h-topper { color: var(--ink-muted); }
+  @media (max-width: 600px) {
+    .h-row { grid-template-columns: 1fr 1fr; }
+    .h-topper { grid-column: span 2; }
+    .h-head span:last-child { display: none; }
+  }
+</style>

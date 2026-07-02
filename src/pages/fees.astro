@@ -1,0 +1,84 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import WingTabs from '../components/WingTabs.astro';
+
+const site = (await getEntry('settings', 'site'))!.data;
+const fees = await getCollection('fees');
+const byWing = Object.fromEntries(fees.map((f) => [f.data.wing, f.data]));
+const wings = [
+  { key: 'english', data: byWing.english, headBg: 'var(--blue)', headInk: '#EDF2FB' },
+  { key: 'hindi', data: byWing.hindi, headBg: 'var(--gold)', headInk: 'var(--green-deep)' },
+];
+---
+<BaseLayout
+  title="Fee Structure — Mayur Children Sr. Sec. School, Badu"
+  description={`Fee structure for session ${site.session} — separate structures for the English Medium and Hindi Medium wings. No capitation or hidden charges.`}
+>
+  <PageHero crumb="Fee Structure" title="Fee Structure · शुल्क संरचना" subtitle={`Session ${site.session} · Each wing has its own fee structure.`} />
+
+  <div class="container section">
+    <WingTabs />
+    {wings.map((w) => (
+      <div class="wing-panel" data-wing={w.key} hidden>
+        <div class="card rowlist fee-table">
+          <div class="fee-row fee-head" style={`background:${w.headBg};color:${w.headInk}`}>
+            <span>{w.data.headers.group}</span>
+            <span>{w.data.headers.admission}</span>
+            <span>{w.data.headers.tuition}</span>
+            <span>{w.data.headers.annual}</span>
+          </div>
+          {w.data.rows.map((r) => (
+            <div class="fee-row">
+              <span class="fee-group">{r.group}</span>
+              <span data-label={w.data.headers.admission}>{r.admission}</span>
+              <span data-label={w.data.headers.tuition}>{r.tuition}</span>
+              <span data-label={w.data.headers.annual}>{r.annual}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    <div class="fee-footer grid grid-2">
+      <div class="notes-box">
+        <strong>Notes · टिप्पणियाँ</strong><br />
+        · Tuition payable quarterly (Apr, Jul, Oct, Jan) · तिमाही देय<br />
+        · 25% sibling concession on tuition for the younger child<br />
+        · Bus fee separate, by route — see <a href="/downloads">bus routes</a><br />
+        · No capitation or hidden charges
+      </div>
+      <div class="note-box circular-box">
+        <div class="circular-title">Need the official fee circular?</div>
+        <div class="circular-btns">
+          <a href="/downloads" class="btn btn-green">Download circular</a>
+          <a href="/contact" class="btn btn-outline">Ask the office</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .fee-table { margin-bottom: 22px; }
+  .fee-row { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; padding: 13px 22px; font-size: 14.5px; gap: 8px; }
+  .fee-head { font-weight: 700; font-size: 13px; letter-spacing: .06em; padding: 12px 22px; }
+  .fee-group { font-weight: 700; color: var(--green-deep); }
+  @media (max-width: 640px) {
+    .fee-head { display: none; }
+    .fee-row { grid-template-columns: 1fr; gap: 2px; padding: 14px 18px; }
+    .fee-row span[data-label]::before { content: attr(data-label) ': '; font-size: 12px; color: var(--ink-label); font-weight: 600; }
+  }
+
+  .fee-footer { align-items: stretch; }
+  .notes-box {
+    background: var(--bg-row-head); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 20px 24px; font-size: 14px; color: #6B5F41; line-height: 1.7;
+  }
+  .notes-box strong { color: var(--green-deep); }
+  .notes-box a { font-weight: 700; text-decoration: none; }
+  .circular-box { display: flex; flex-direction: column; justify-content: center; gap: 12px; }
+  .circular-title { font-weight: 700; font-size: 15.5px; color: var(--green-deep); }
+  .circular-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+</style>

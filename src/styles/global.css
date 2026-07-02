@@ -1,0 +1,138 @@
+/* ===== Design tokens (extracted from Mayur School Site prototype) ===== */
+:root {
+  --green-deep: #10403B;
+  --green-mid: #175A50;
+  --green-soft: #2C7A6F;
+  --gold: #C99A2E;
+  --gold-bright: #EFC75E;
+  --gold-dark: #A87F1F;
+  --blue: #2456A6;
+  --blue-soft: #5F7EB6;
+
+  --bg: #FBF8F1;
+  --bg-card: #FFFFFF;
+  --bg-note: #F7EED9;
+  --bg-row-head: #FDFBF5;
+  --bg-blue-tint: #E8EEF9;
+  --bg-gold-tint: #F7EED9;
+
+  --border: #E6DDC8;
+  --border-note: #E6D5A8;
+  --divider: #F0EADA;
+
+  --ink: #253331;
+  --ink-body: #4A4A3F;
+  --ink-muted: #7A7059;
+  --ink-label: #8A7A55;
+  --ink-date: #A89C7F;
+
+  --cream: #F2EBDA;
+  --cream-bright: #FDFAF2;
+  --cream-head: #F8F3E6;
+  --tan: #CBBF9F;
+
+  --font-serif: 'Lora', Georgia, serif;
+  --font-sans: 'Hind', system-ui, sans-serif;
+
+  --radius: 8px;
+  --pad-x: clamp(18px, 4vw, 44px);
+  --shadow-card: 0 8px 24px rgba(16, 64, 59, .10);
+}
+
+/* ===== Base ===== */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { font-family: var(--font-serif); color: var(--green-deep); font-weight: 600; line-height: 1.2; }
+img { max-width: 100%; display: block; }
+a { color: var(--blue); }
+
+.container { max-width: 1180px; margin-inline: auto; padding-inline: var(--pad-x); }
+
+/* ===== Page hero (dark green band under nav) ===== */
+.page-hero { background: var(--green-deep); color: var(--cream); padding: 34px 0; }
+.page-hero .crumb { font-size: 13px; color: var(--tan); margin-bottom: 4px; }
+.page-hero h1 { margin: 0 0 6px; font-size: clamp(26px, 4.5vw, 36px); color: var(--cream-bright); }
+.page-hero p { margin: 0; font-size: 16px; color: var(--tan); }
+
+/* ===== Cards & sections ===== */
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); }
+.card-pad { padding: 22px 26px; }
+.section { padding-block: 36px; }
+.section-title { margin: 0 0 18px; font-size: clamp(21px, 3vw, 26px); }
+.note-box {
+  background: var(--bg-note); border: 1px solid var(--border-note);
+  border-radius: var(--radius); padding: 18px 22px;
+  font-size: 14px; color: #6B5F41; line-height: 1.8;
+}
+.note-box strong { color: var(--green-deep); }
+
+/* ===== Grids ===== */
+.grid { display: grid; gap: 20px; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 900px) {
+  .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+}
+
+/* ===== Buttons ===== */
+.btn {
+  display: inline-block; text-decoration: none; font-weight: 700;
+  border-radius: 4px; padding: 11px 20px; font-size: 14.5px;
+  cursor: pointer; border: none; font-family: var(--font-sans); text-align: center;
+}
+.btn-gold { background: var(--gold); color: var(--green-deep); }
+.btn-green { background: var(--green-deep); color: var(--cream); }
+.btn-outline { background: transparent; border: 1.5px solid var(--green-deep); color: var(--green-deep); }
+.btn-outline-light { background: transparent; border: 1.5px solid var(--tan); color: var(--cream); }
+
+/* ===== Wing badges ===== */
+.badge {
+  font-weight: 700; font-size: 12px; padding: 2px 10px;
+  border-radius: 4px; flex: none; white-space: nowrap;
+}
+.badge-both { border: 1px solid var(--tan); color: var(--ink-label); }
+.badge-english { background: var(--bg-blue-tint); color: var(--blue); }
+.badge-hindi { background: var(--bg-gold-tint); color: var(--gold-dark); }
+
+/* ===== Wing tabs (Results / Faculty / Fees) ===== */
+.wing-tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 26px; }
+.wing-tab {
+  background: transparent; border: none; border-bottom: 3px solid transparent;
+  color: var(--ink-label); font-family: var(--font-sans); font-weight: 600;
+  font-size: 17px; padding: 12px 26px; cursor: pointer; margin-bottom: -2px;
+}
+.wing-tab[data-wing="english"].active { border-bottom-color: var(--blue); color: var(--blue); font-weight: 700; }
+.wing-tab[data-wing="hindi"].active { border-bottom-color: var(--gold); color: var(--gold-dark); font-weight: 700; }
+.wing-panel[hidden] { display: none; }
+
+/* ===== Photo placeholders (until real photos are uploaded) ===== */
+.ph {
+  display: flex; align-items: center; justify-content: center;
+  font-family: ui-monospace, Menlo, monospace; font-size: 10px;
+}
+.ph-blue { background: repeating-linear-gradient(45deg, #E8EEF9, #E8EEF9 10px, #DCE6F5 10px, #DCE6F5 20px); color: var(--blue-soft); }
+.ph-gold { background: repeating-linear-gradient(45deg, #F7EED9, #F7EED9 10px, #F0E3C4 10px, #F0E3C4 20px); color: var(--gold-dark); }
+.ph-green { background: repeating-linear-gradient(45deg, #E3EFE7, #E3EFE7 10px, #EFF7F1 10px, #EFF7F1 20px); color: #4E8A66; }
+.ph-cream { background: repeating-linear-gradient(45deg, #EFE9D8, #EFE9D8 10px, #F6F1E4 10px, #F6F1E4 20px); color: var(--ink-label); }
+.avatar { border-radius: 50%; flex: none; overflow: hidden; }
+.avatar.ring-blue { border: 2px solid var(--blue); }
+.avatar.ring-gold { border: 2px solid var(--gold); }
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ===== Row lists (announcements, downloads, tables) ===== */
+.rowlist { overflow: hidden; }
+.rowlist > * { border-bottom: 1px solid var(--divider); }
+.rowlist > *:last-child { border-bottom: none; }

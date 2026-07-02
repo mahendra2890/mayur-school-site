@@ -1,0 +1,54 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { dayMonth, wingBadge } from '../lib/utils';
+
+const announcements = (await getCollection('announcements'))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const rendered = await Promise.all(
+  announcements.map(async (a) => ({ ...a, Content: (await render(a)).Content }))
+);
+---
+<BaseLayout
+  title="Announcements — Mayur Children Sr. Sec. School, Badu"
+  description="Latest notices for students and parents of both wings of Mayur Children Sr. Sec. School."
+>
+  <PageHero crumb="Announcements" title="Announcements · सूचनाएँ" subtitle="Notices for students and parents of both wings." />
+
+  <div class="container section">
+    <div class="card rowlist">
+      {rendered.map((a) => {
+        const d = dayMonth(a.data.date);
+        const badge = wingBadge[a.data.wing];
+        return (
+          <div class="ann-row">
+            <div class="ann-date">{d.day}<br />{d.month}</div>
+            <div class="ann-body">
+              <div class="ann-head">
+                <span class={badge.cls}>{badge.label}</span>
+                <span class="ann-title">{a.data.title}</span>
+              </div>
+              <div class="ann-text"><a.Content /></div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .ann-row { display: flex; gap: 16px; padding: 17px 22px; align-items: flex-start; }
+  .ann-date {
+    color: var(--gold-dark); font-family: var(--font-serif); font-weight: 700;
+    font-size: 14px; flex: none; width: 56px; text-align: center; line-height: 1.3;
+  }
+  .ann-body { flex: 1; }
+  .ann-head { display: flex; gap: 10px; align-items: center; margin-bottom: 3px; flex-wrap: wrap; }
+  .ann-title { font-weight: 700; font-size: 15.5px; color: var(--green-deep); }
+  .ann-text { font-size: 14px; color: var(--ink-muted); }
+  .ann-text :global(p) { margin: 0; }
+  .ann-text :global(a) { font-weight: 700; text-decoration: none; }
+</style>

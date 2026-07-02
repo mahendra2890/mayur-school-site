@@ -1,0 +1,168 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Avatar from '../components/Avatar.astro';
+import { dayMonth, wingBadge } from '../lib/utils';
+
+const site = (await getEntry('settings', 'site'))!.data;
+const announcements = (await getCollection('announcements'))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+
+const results = await getCollection('results');
+const pride = results
+  .flatMap((r) => r.data.toppers.map((t) => ({ ...t, wing: r.data.wing })))
+  .sort((a, b) => parseFloat(b.percent) - parseFloat(a.percent))
+  .slice(0, 3);
+const prideYear = Math.max(...results.map((r) => r.data.year));
+---
+<BaseLayout
+  title="Mayur Children Sr. Sec. School, Badu — English & Hindi Medium"
+  description="Mayur Children Sr. Sec. School, Badu — one school, two mediums. English Medium and Hindi Medium wings, Nursery to Class XII. Est. 1998."
+>
+  <div class="hero">
+    <div class="container">
+      <div class="kicker">एक विद्यालय · दो माध्यम · ONE SCHOOL, TWO MEDIUMS</div>
+      <h1>Two wings of the same <em>mayur</em>.</h1>
+      <p>One management, one board, one set of values — with a dedicated building, teachers and fee structure for each medium.</p>
+      <div class="hero-ctas">
+        <a href="/admissions" class="btn btn-gold btn-lg">Begin Admission →</a>
+        <a href="/about" class="btn btn-outline-light btn-lg">Our Story</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="wing-cards grid grid-2">
+      <div class="card wing-card">
+        <div class="stripe" style="background:var(--blue)"></div>
+        <div class="card-pad">
+          <div class="wing-kicker" style="color:var(--blue)">ENGLISH MEDIUM WING</div>
+          <div class="wing-title">Nursery – Class XII</div>
+          <p>Own building, dedicated faculty, and a fee structure tailored to the wing.</p>
+          <div class="wing-links" style="--link:var(--blue)">
+            <a href="/fees">Fees</a><a href="/faculty">Faculty</a><a href="/results">Results</a>
+          </div>
+        </div>
+      </div>
+      <div class="card wing-card">
+        <div class="stripe" style="background:var(--gold)"></div>
+        <div class="card-pad">
+          <div class="wing-kicker" style="color:var(--gold-dark)" lang="hi">हिंदी माध्यम विंग</div>
+          <div class="wing-title" lang="hi">नर्सरी – कक्षा XII</div>
+          <p lang="hi">अपना भवन, समर्पित शिक्षक, और माध्यम के अनुसार शुल्क संरचना।</p>
+          <div class="wing-links" style="--link:var(--gold-dark)">
+            <a href="/fees" lang="hi">शुल्क</a><a href="/faculty" lang="hi">शिक्षक</a><a href="/results" lang="hi">परिणाम</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-band">
+    <div class="container stats-grid">
+      {site.stats.map((s) => (
+        <div><div class="stat-value">{s.value}</div><div class="stat-label">{s.label}</div></div>
+      ))}
+    </div>
+  </div>
+
+  <div class="container home-columns">
+    <div>
+      <div class="col-head">
+        <h2>Announcements <span>· सूचनाएँ</span></h2>
+        <a href="/announcements" class="view-all">View all →</a>
+      </div>
+      <div class="card rowlist">
+        {announcements.map((a) => {
+          const d = dayMonth(a.data.date);
+          const badge = wingBadge[a.data.wing];
+          return (
+            <div class="ann-row">
+              <span class={badge.cls}>{badge.label}</span>
+              <span class="ann-title">{a.data.title}</span>
+              <span class="ann-date">{d.day} {d.month}</span>
+            </div>
+          );
+        })}
+      </div>
+      <div class="quick-links">
+        <a href="/calendar" class="btn btn-green">Calendar</a>
+        <a href="/downloads" class="btn btn-green">Downloads</a>
+        <a href="/contact" class="btn btn-green">Reach Us</a>
+        <a href="/fees" class="btn btn-outline">₹ Fees</a>
+      </div>
+    </div>
+    <div>
+      <div class="col-head">
+        <h2>Pride of {prideYear}</h2>
+        <a href="/results" class="view-all">All results →</a>
+      </div>
+      <div class="pride-list">
+        {pride.map((t) => (
+          <div class="card pride-card">
+            <Avatar photo={t.photo} name={t.name} size={54} ring={t.wing === 'english' ? 'blue' : 'gold'} />
+            <div class="pride-info">
+              <div class="pride-name">{t.name}</div>
+              <div class="pride-stream">{t.stream} · {t.wing === 'english' ? 'English Medium' : 'हिंदी माध्यम'}</div>
+            </div>
+            <div class="pride-pct" style={`color:${t.wing === 'english' ? 'var(--blue)' : 'var(--gold-dark)'}`}>{t.percent}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    background: linear-gradient(160deg, var(--green-deep) 0%, var(--green-mid) 100%);
+    color: var(--cream); padding: 46px 0 60px; text-align: center;
+  }
+  .kicker { font-size: 14px; letter-spacing: .14em; color: var(--gold-bright); font-weight: 700; margin-bottom: 12px; }
+  .hero h1 {
+    margin: 0 auto 14px; font-size: clamp(30px, 6vw, 46px); line-height: 1.12;
+    color: var(--cream-bright); max-width: 20ch;
+  }
+  .hero h1 em { color: var(--gold-bright); }
+  .hero p { margin: 0 auto 26px; font-size: 17px; color: #D8CFB6; max-width: 58ch; }
+  .hero-ctas { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn-lg { font-size: 16px; padding: 13px 28px; }
+
+  .wing-cards { margin-top: -28px; }
+  .wing-card { overflow: hidden; box-shadow: var(--shadow-card); }
+  .stripe { height: 6px; }
+  .wing-kicker { font-size: 13px; letter-spacing: .1em; font-weight: 700; margin-bottom: 6px; }
+  .wing-title { font-family: var(--font-serif); font-weight: 600; font-size: 22px; color: var(--green-deep); margin-bottom: 6px; }
+  .wing-card p { margin: 0 0 16px; font-size: 14.5px; color: var(--ink-muted); line-height: 1.55; }
+  .wing-links { display: flex; gap: 16px; font-weight: 700; font-size: 14.5px; }
+  .wing-links a { color: var(--link); text-decoration: none; border-bottom: 2px solid var(--link); padding-bottom: 2px; }
+
+  .stats-band { background: var(--gold); color: var(--green-deep); margin-top: 32px; padding: 18px 0; }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; font-weight: 700; gap: 12px; }
+  .stat-value { font-family: var(--font-serif); font-size: 28px; }
+  .stat-label { font-size: 13px; }
+  @media (max-width: 700px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .home-columns { display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; padding-top: 40px; padding-bottom: 8px; }
+  @media (max-width: 900px) { .home-columns { grid-template-columns: 1fr; } }
+  .col-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; }
+  .col-head h2 { margin: 0; font-size: 26px; }
+  .col-head h2 span { color: var(--ink-label); font-size: 17px; }
+  .view-all { font-weight: 700; font-size: 14px; color: var(--green-deep); text-decoration: none; }
+
+  .ann-row { display: flex; gap: 14px; padding: 15px 22px; align-items: center; }
+  .ann-title { font-weight: 600; font-size: 15px; flex: 1; }
+  .ann-date { font-size: 13px; color: var(--ink-date); font-weight: 600; white-space: nowrap; }
+  @media (max-width: 600px) { .ann-row { flex-wrap: wrap; } .ann-title { flex-basis: 100%; order: 3; } }
+
+  .quick-links { display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+  .quick-links .btn { flex: 1; min-width: 110px; padding: 13px; }
+
+  .pride-list { display: flex; flex-direction: column; gap: 12px; }
+  .pride-card { padding: 14px 18px; display: flex; gap: 14px; align-items: center; }
+  .pride-info { flex: 1; }
+  .pride-name { font-weight: 700; font-size: 15.5px; }
+  .pride-stream { font-size: 12.5px; color: var(--ink-muted); }
+  .pride-pct { font-family: var(--font-serif); font-weight: 700; font-size: 20px; }
+</style>

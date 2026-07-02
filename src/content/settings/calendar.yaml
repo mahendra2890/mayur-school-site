@@ -1,0 +1,18 @@
+terms:
+  - name: "Term 1"
+    range: "1 April – 30 September"
+  - name: "Term 2"
+    range: "1 October – 31 March"
+  - name: "Summer break"
+    range: "15 May – 30 June"
+  - name: "Winter break"
+    range: "25 Dec – 5 January"
+holidays:
+  - name: "Raksha Bandhan"
+    date: "28 Aug"
+  - name: "Gandhi Jayanti"
+    date: "2 Oct"
+  - name: "Diwali break"
+    date: "7–12 Nov"
+  - name: "Holi break"
+    date: "3–4 Mar"

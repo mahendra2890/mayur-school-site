@@ -1,0 +1,71 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const photos = (await getCollection('gallery'))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const categories = [
+  { key: 'all', label: 'All' },
+  { key: 'events', label: 'Events · कार्यक्रम' },
+  { key: 'sports', label: 'Sports · खेल' },
+  { key: 'campus', label: 'Campus · परिसर' },
+  { key: 'celebrations', label: 'Celebrations · उत्सव' },
+];
+const phStyles = ['ph-blue', 'ph-gold', 'ph-green', 'ph-cream'];
+---
+<BaseLayout
+  title="Gallery — Mayur Children Sr. Sec. School, Badu"
+  description="Photo gallery — moments from both wings of Mayur Children Sr. Sec. School: events, sports, campus and celebrations."
+>
+  <PageHero crumb="Gallery" title="Gallery · गैलरी" subtitle="Moments from both wings — events, sports and everyday school life." />
+
+  <div class="container section">
+    <div class="filters">
+      {categories.map((c, i) => (
+        <button class:list={['filter', { active: i === 0 }]} data-cat={c.key} type="button">{c.label}</button>
+      ))}
+    </div>
+    <div class="grid grid-4">
+      {photos.map((p, i) => (
+        <figure class="card photo-card" data-cat={p.data.category}>
+          {p.data.image ? (
+            <img src={p.data.image} alt={p.data.title} loading="lazy" class="photo-img" />
+          ) : (
+            <div class:list={['ph', phStyles[i % phStyles.length], 'photo-img']}>photo: {p.data.title}</div>
+          )}
+          <figcaption>{p.data.title}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+
+  <script>
+    const filters = document.querySelectorAll<HTMLElement>('.filter');
+    filters.forEach((f) => {
+      f.addEventListener('click', () => {
+        filters.forEach((x) => x.classList.toggle('active', x === f));
+        const cat = f.dataset.cat;
+        document.querySelectorAll<HTMLElement>('.photo-card').forEach((card) => {
+          card.hidden = cat !== 'all' && card.dataset.cat !== cat;
+        });
+      });
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  .filters { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+  .filter {
+    background: var(--bg-card); border: 1px solid var(--border); color: var(--ink-muted);
+    font-family: var(--font-sans); font-weight: 600; font-size: 13.5px;
+    padding: 7px 18px; border-radius: 999px; cursor: pointer;
+  }
+  .filter.active { background: var(--green-deep); border-color: var(--green-deep); color: var(--cream); font-weight: 700; }
+
+  .photo-card { margin: 0; overflow: hidden; }
+  .photo-card[hidden] { display: none; }
+  .photo-img { height: 150px; width: 100%; object-fit: cover; font-size: 10px; }
+  figcaption { padding: 10px 14px; font-size: 13.5px; font-weight: 600; color: var(--green-deep); }
+</style>

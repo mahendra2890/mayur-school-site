@@ -1,0 +1,27 @@
+wing: hindi
+year: 2026
+passRate12: "97%"
+above90: 36
+toppers:
+  - name: "कविता यादव"
+    stream: "XII · विज्ञान"
+    percent: "96.8%"
+  - name: "रोहित वर्मा"
+    stream: "XII · वाणिज्य"
+    percent: "95.4%"
+  - name: "अंजलि गुर्जर"
+    stream: "XII · कला"
+    percent: "94.9%"
+history:
+  - batch: "2025"
+    pass10: "99%"
+    pass12: "96%"
+    topper: "सुमन चौधरी · 95.9%"
+  - batch: "2024"
+    pass10: "97%"
+    pass12: "95%"
+    topper: "दीपक सैनी · 94.7%"
+  - batch: "2023"
+    pass10: "98%"
+    pass12: "94%"
+    topper: "पूजा मीणा · 95.1%"

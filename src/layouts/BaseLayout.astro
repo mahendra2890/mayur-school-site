@@ -1,0 +1,195 @@
+---
+import { getEntry } from 'astro:content';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+
+const site = (await getEntry('settings', 'site'))!.data;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/admissions', label: 'Admissions' },
+  { href: '/results', label: 'Results' },
+  { href: '/faculty', label: 'Faculty & Staff' },
+  { href: '/fees', label: 'Fees' },
+  { href: '/calendar', label: 'Calendar' },
+  { href: '/gallery', label: 'Gallery' },
+  { href: '/achievements', label: 'Achievements' },
+  { href: '/downloads', label: 'Downloads' },
+  { href: '/contact', label: 'Contact' },
+];
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+{site.admissionsOpen && (
+  <div class="ticker">
+    {site.admissionsTickerText} <a href="/admissions">apply now →</a>
+  </div>
+)}
+
+<header class="site-header">
+  <div class="container">
+    <div class="masthead">
+      <a href="/" class="brand">
+        <div class="logo">M</div>
+        <div>
+          <div class="brand-name">Mayur Children Sr. Sec. School</div>
+          <div class="brand-sub">English Medium · हिंदी माध्यम — Badu · Est. 1998</div>
+        </div>
+      </a>
+      <div class="masthead-actions">
+        <a class="phone" href={`tel:${site.phone.replace(/[^+\d]/g, '')}`}>☎ {site.phone}</a>
+        <a href="/admissions" class="btn btn-gold">Admissions</a>
+        <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">☰</button>
+      </div>
+    </div>
+    <nav id="site-nav" class="site-nav">
+      {navLinks.map((l) => (
+        <a href={l.href} class:list={{ active: path === l.href || (l.href !== '/' && path.startsWith(l.href)) }}>{l.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<main>
+  <slot />
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <div class="footer-brand">Mayur Children Sr. Sec. School</div>
+      <p>English Medium · हिंदी माध्यम<br />{site.addressLines.slice(1).join(', ')}<br />☎ {site.phone} · <a href={`mailto:${site.email}`}>{site.email}</a></p>
+    </div>
+    <div>
+      <div class="footer-head">School</div>
+      <div class="footer-links">
+        <a href="/about">About Us</a>
+        <a href="/admissions">Admissions · प्रवेश</a>
+        <a href="/fees">Fee structure · शुल्क</a>
+        <a href="/faculty">Faculty &amp; Staff</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-head">For parents</div>
+      <div class="footer-links">
+        <a href="/announcements">Announcements · सूचनाएँ</a>
+        <a href="/calendar">Academic calendar</a>
+        <a href="/downloads">Downloads · डाउनलोड</a>
+        <a href="/results">Results &amp; Toppers</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-head">School hours</div>
+      <p>{site.schoolHours}<br />Office: {site.officeHours}<br /><a class="footer-reach" href="/contact">How to reach us →</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile nav toggle
+  const toggle = document.querySelector('.nav-toggle');
+  const nav = document.getElementById('site-nav');
+  toggle?.addEventListener('click', () => {
+    const open = nav!.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+
+  // Wing tabs (Results / Faculty / Fees) — persists choice across pages
+  const tabGroups = document.querySelectorAll('.wing-tabs');
+  if (tabGroups.length) {
+    const setWing = (wing: string) => {
+      document.querySelectorAll<HTMLElement>('.wing-tab').forEach((t) => {
+        t.classList.toggle('active', t.dataset.wing === wing);
+      });
+      document.querySelectorAll<HTMLElement>('.wing-panel').forEach((p) => {
+        p.hidden = p.dataset.wing !== wing;
+      });
+      localStorage.setItem('wing', wing);
+    };
+    document.querySelectorAll<HTMLElement>('.wing-tab').forEach((t) => {
+      t.addEventListener('click', () => setWing(t.dataset.wing!));
+    });
+    setWing(localStorage.getItem('wing') === 'hindi' ? 'hindi' : 'english');
+  }
+</script>
+
+<style>
+  .ticker {
+    background: var(--gold); color: var(--green-deep); text-align: center;
+    padding: 8px var(--pad-x); font-weight: 700; font-size: 14px;
+  }
+  .ticker a { color: var(--green-deep); }
+
+  .site-header { background: var(--green-deep); color: var(--cream); }
+  .masthead {
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    padding: 16px 0; border-bottom: 1px solid rgba(242, 235, 218, .18);
+  }
+  .brand { display: flex; align-items: center; gap: 16px; text-decoration: none; }
+  .logo {
+    width: 54px; height: 54px; border-radius: 50%; flex: none;
+    background: radial-gradient(circle at 50% 40%, var(--green-soft), var(--green-deep));
+    border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center;
+    color: var(--gold-bright); font-family: var(--font-serif); font-weight: 700; font-size: 24px;
+  }
+  .brand-name { font-family: var(--font-serif); font-weight: 700; font-size: 21px; line-height: 1.15; color: var(--cream-head); }
+  .brand-sub { font-size: 13.5px; color: var(--tan); }
+  .masthead-actions { display: flex; gap: 16px; align-items: center; font-size: 14px; }
+  .phone { color: var(--tan); text-decoration: none; white-space: nowrap; }
+  .nav-toggle {
+    display: none; background: none; border: 1.5px solid var(--tan); color: var(--cream);
+    font-size: 20px; padding: 4px 12px; border-radius: 4px; cursor: pointer;
+  }
+
+  .site-nav { display: flex; gap: 22px; padding: 13px 0; font-weight: 600; font-size: 14.5px; flex-wrap: wrap; }
+  .site-nav a { color: var(--tan); text-decoration: none; }
+  .site-nav a:hover { color: var(--gold-bright); }
+  .site-nav a.active { color: var(--cream); }
+
+  @media (max-width: 860px) {
+    .brand-name { font-size: 17px; }
+    .brand-sub { font-size: 12px; }
+    .phone, .masthead-actions .btn { display: none; }
+    .nav-toggle { display: block; }
+    .site-nav { display: none; flex-direction: column; gap: 0; padding: 8px 0 16px; }
+    .site-nav.open { display: flex; }
+    .site-nav a { padding: 10px 4px; border-bottom: 1px solid rgba(242, 235, 218, .12); }
+  }
+
+  .site-footer { background: var(--green-deep); color: var(--tan); padding: 34px 0; font-size: 14px; margin-top: 48px; }
+  .footer-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 28px; }
+  .footer-brand { font-family: var(--font-serif); font-weight: 700; font-size: 18px; color: var(--cream-head); margin-bottom: 8px; }
+  .footer-head { font-weight: 700; color: var(--gold-bright); margin-bottom: 8px; }
+  .footer-links { display: flex; flex-direction: column; gap: 6px; }
+  .site-footer a { color: var(--tan); text-decoration: none; }
+  .site-footer a:hover { color: var(--gold-bright); }
+  .site-footer p { margin: 0; line-height: 1.7; }
+  .footer-reach { text-decoration: underline !important; }
+  @media (max-width: 860px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .footer-grid { grid-template-columns: 1fr; } }
+</style>
+</body>
+</html>

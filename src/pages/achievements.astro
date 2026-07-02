@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Avatar from '../components/Avatar.astro';
+
+const achievements = (await getCollection('achievements')).sort((a, b) => a.data.order - b.data.order);
+const alumni = (await getCollection('alumni')).sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout
+  title="Achievements & Alumni — Mayur Children Sr. Sec. School, Badu"
+  description="Student achievements at district, state and national level, and alumni of Mayur Children Sr. Sec. School."
+>
+  <PageHero crumb="Achievements & Alumni" title="Achievements & Alumni · उपलब्धियाँ" subtitle="Beyond the classroom — and beyond school." />
+
+  <div class="container section" style="padding-bottom:10px">
+    <h2 class="section-title" style="font-size:24px">Student achievements</h2>
+    <div class="grid grid-3">
+      {achievements.map((a) => (
+        <div class="card card-pad">
+          <div class="ach-level">{a.data.level} · {a.data.year}</div>
+          <div class="ach-title">{a.data.title}</div>
+          <p class="ach-text">{a.data.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="container section">
+    <h2 class="section-title" style="font-size:24px;margin-bottom:6px">Our alumni · हमारे पूर्व छात्र</h2>
+    <p class="alumni-sub">From both wings, out into the world.</p>
+    <div class="grid grid-3">
+      {alumni.map((a) => (
+        <div class="card card-pad alum-card">
+          <Avatar photo={a.data.photo} name={a.data.name} size={62} ring={a.data.wing === 'english' ? 'blue' : 'gold'} />
+          <div>
+            <div class="alum-name">{a.data.name}</div>
+            <div class="alum-batch" style={`color:${a.data.wing === 'english' ? 'var(--blue)' : 'var(--gold-dark)'}`}>{a.data.batch}</div>
+            <p class="alum-quote">"{a.data.quote}"</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .ach-level { font-size: 12.5px; letter-spacing: .1em; font-weight: 700; color: var(--gold-dark); margin-bottom: 8px; }
+  .ach-title { font-weight: 700; font-size: 16.5px; color: var(--green-deep); margin-bottom: 6px; }
+  .ach-text { margin: 0; font-size: 14px; color: var(--ink-muted); line-height: 1.6; }
+
+  .alumni-sub { margin: 0 0 18px; font-size: 15px; color: var(--ink-muted); }
+  .alum-card { display: flex; gap: 16px; align-items: flex-start; }
+  .alum-name { font-weight: 700; font-size: 16px; color: var(--green-deep); }
+  .alum-batch { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+  .alum-quote { margin: 0; font-size: 13.5px; color: var(--ink-muted); line-height: 1.55; font-style: italic; }
+</style>

@@ -1,0 +1,22 @@
+admissionsOpen: true
+admissionsTickerText: "Admissions open for 2026–27 · दोनों माध्यमों में प्रवेश खुले हैं —"
+session: "2026–27"
+phone: "011-2345-6789"
+email: "info@mayurschool.edu.in"
+addressLines:
+  - "Mayur Children Sr. Sec. School"
+  - "Village Badu, Tehsil Road"
+  - "PIN 3XXXXX"
+schoolHours: "Mon–Sat: 8:00 AM – 2:00 PM"
+officeHours: "Mon–Sat, 9:00 AM – 3:30 PM"
+web3formsKey: "YOUR-WEB3FORMS-ACCESS-KEY"
+mapEmbedUrl: ""
+stats:
+  - value: "1,200+"
+    label: "Students · विद्यार्थी"
+  - value: "60+"
+    label: "Teachers · शिक्षक"
+  - value: "98%"
+    label: "Board pass rate"
+  - value: "28"
+    label: "Years of service"
