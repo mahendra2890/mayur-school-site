@@ -1,12 +1,11 @@
 # Sveltia CMS configuration — the admin panel at /admin
 #
 # SETUP (one-time, see README.md):
-#   1. Replace REPLACE-WITH-GITHUB-USER/mayur-school-site with the real repo.
-#   2. Deploy the sveltia-cms-auth Cloudflare Worker and put its URL in base_url.
+#   Deploy the sveltia-cms-auth Cloudflare Worker and put its URL in base_url.
 
 backend:
   name: github
-  repo: REPLACE-WITH-GITHUB-USER/mayur-school-site
+  repo: mahendra2890/mayur-school-site
   branch: main
   base_url: https://REPLACE-WITH-AUTH-WORKER.workers.dev
 
