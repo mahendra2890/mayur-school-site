@@ -1,27 +1,35 @@
 wing: english
 headers:
-  group: "CLASS GROUP"
-  admission: "ADMISSION (ONE-TIME)"
-  tuition: "TUITION / MONTH"
-  annual: "ANNUAL CHARGES"
+  group: CLASS GROUP
+  admission: ADMISSION (ONE-TIME)
+  tuition: TUITION / MONTH
+  annual: ANNUAL CHARGES
 rows:
-  - group: "Nursery – UKG"
-    admission: "₹5,000"
-    tuition: "₹1,400"
-    annual: "₹3,500"
-  - group: "Class I – V"
-    admission: "₹6,000"
-    tuition: "₹1,700"
-    annual: "₹4,000"
-  - group: "Class VI – VIII"
-    admission: "₹6,500"
-    tuition: "₹1,950"
-    annual: "₹4,500"
-  - group: "Class IX – X"
-    admission: "₹7,500"
-    tuition: "₹2,300"
-    annual: "₹5,000"
-  - group: "Class XI – XII"
-    admission: "₹8,500"
-    tuition: "₹2,700"
-    annual: "₹5,500"
+  - group: Nursery – UKG
+    admission: ₹1500
+    tuition: ₹1100
+    annual: ₹11000
+  - group: Class I – II
+    admission: ₹1500
+    tuition: ₹1360
+    annual: ₹13600
+  - group: Class III - IV
+    admission: '1600'
+    tuition: '1500'
+    annual: '15000'
+  - group: Class V
+    admission: '1600'
+    tuition: '1600'
+    annual: '16000'
+  - group: Class VI-VII
+    admission: '2000'
+    tuition: '2000'
+    annual: '20000'
+  - group: Class VIII
+    admission: '2000'
+    tuition: '2200'
+    annual: '22000'
+  - group: Class IX
+    admission: '2500'
+    tuition: '2860'
+    annual: '28600'
