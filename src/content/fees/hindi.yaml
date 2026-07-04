@@ -1,27 +1,55 @@
 wing: hindi
 headers:
-  group: "कक्षा समूह"
-  admission: "प्रवेश शुल्क (एक बार)"
-  tuition: "शिक्षण शुल्क / माह"
-  annual: "वार्षिक शुल्क"
+  group: कक्षा समूह
+  admission: प्रवेश शुल्क (एक बार)
+  tuition: शिक्षण शुल्क / माह
+  annual: वार्षिक शुल्क
 rows:
-  - group: "नर्सरी – UKG"
-    admission: "₹3,000"
-    tuition: "₹800"
-    annual: "₹2,000"
-  - group: "कक्षा I – V"
-    admission: "₹3,500"
-    tuition: "₹1,000"
-    annual: "₹2,500"
-  - group: "कक्षा VI – VIII"
-    admission: "₹4,000"
-    tuition: "₹1,200"
-    annual: "₹2,800"
-  - group: "कक्षा IX – X"
-    admission: "₹4,500"
-    tuition: "₹1,450"
-    annual: "₹3,200"
-  - group: "कक्षा XI – XII"
-    admission: "₹5,500"
-    tuition: "₹1,700"
-    annual: "₹3,600"
+  - group: नर्सरी – UKG
+    admission: '-'
+    tuition: '600'
+    annual: '6000'
+  - group: कक्षा I – II
+    admission: '-'
+    tuition: '700'
+    annual: '7000'
+  - group: कक्षा III-IV
+    admission: '-'
+    tuition: '760'
+    annual: '7600'
+  - group: कक्षा V
+    admission: '-'
+    tuition: '800'
+    annual: '8000'
+  - group: कक्षा VI-VII
+    admission: '-'
+    tuition: '960'
+    annual: '9600'
+  - group: कक्षा VIII
+    admission: '-'
+    tuition: '1100'
+    annual: '11000'
+  - group: कक्षा IX
+    admission: '-'
+    tuition: '1440'
+    annual: '14400'
+  - group: कक्षा X
+    admission: '-'
+    tuition: '1600'
+    annual: '16000'
+  - group: कक्षा XI SCI.
+    admission: '-'
+    tuition: '3200'
+    annual: '32000'
+  - group: कक्षा XI ARTS
+    admission: '-'
+    tuition: '1760'
+    annual: '17600'
+  - group: कक्षा XII SCI.
+    admission: '-'
+    tuition: '3300'
+    annual: '33000'
+  - group: कक्षा XII ARTS
+    admission: '-'
+    tuition: '1860'
+    annual: '18600'
