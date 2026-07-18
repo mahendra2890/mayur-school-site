@@ -1,18 +1,54 @@
 wing: hindi
-teacherCount: 28
+teacherCount: 19
 principal:
-  name: "श्री एम. एल. शर्मा"
-  title: "प्रधानाचार्य — हिंदी माध्यम विंग"
-  bio: "एम.ए. (हिंदी), बी.एड. · 25 वर्ष का अनुभव · 2001 से विद्यालय के साथ।"
+  name: श्री पवन कुमार  शर्मा
+  title: प्रधानाचार्य — हिंदी माध्यम विंग
+  bio: एम.ए. (हिंदी), बी.एड. · 15 वर्ष का अनुभव · 2018 से विद्यालय के साथ।
 teachers:
-  - name: "श्रीमती जी. देवी"
-    role: "उप-प्रधानाचार्य · गणित, IX–XII"
-  - name: "श्री पी. गुप्ता"
-    role: "विज्ञान समन्वयक · भौतिकी, XI–XII"
-  - name: "श्रीमती एस. कुमारी"
-    role: "प्राथमिक प्रभारी · नर्सरी–V"
-  - name: "श्री आर. चौधरी"
-    role: "हिंदी एवं सामाजिक विज्ञान, VI–X"
-  - name: "सुश्री वी. मीणा"
-    role: "रसायन एवं जीव विज्ञान, IX–XII"
-moreNote: "+ 23 अन्य शिक्षक — पूरी सूची विंग कार्यालय में उपलब्ध"
+  - name: श्री भँवर सिंह
+    role: co-ordinator , Exam controllar , PGT History
+  - name: श्री रामकरण राठी
+    role: TGT संस्कृत
+  - name: श्रीमती सरोज देवी
+    role: TGT हिंदी
+  - name: श्री जीवन सिंह
+    role: PGT  जीव विज्ञान
+  - name: श्री गुमान राम
+    role: PGT भूगोल
+  - name: श्री हनुमान राम
+    role: PGT Maths
+    photo: ''
+  - name: श्री अन्नाराम आंचरा
+    role: PGT  इतिहास
+    photo: ''
+  - name: श्री गोपाल राम
+    role: PGT English
+    photo: ''
+  - name: श्री धर्माराम धून
+    role: TGT English
+    photo: ''
+  - name: श्री मुमताज़ सोलंकी
+    role: PGT  भौतिक विज्ञान
+    photo: ''
+  - name: श्री आशाराम कांटवा
+    role: PGT रसायन विज्ञान
+    photo: ''
+  - name: श्री मनोज कुमार
+    role: TGT विज्ञान
+    photo: ''
+  - name: श्री जगन्नाथ खोरवाल
+    role: PGT हिंदी साहित्य
+    photo: ''
+  - name: शहादत मोहम्मद
+    role: PRT विज्ञान
+    photo: ''
+  - name: सुश्री कंचन
+    role: PRT हिंदी
+    photo: ''
+  - name: सुश्री सुमन
+    role: PRT  Maths
+    photo: ''
+  - name: सुश्री कविता
+    role: PRT  Maths
+    photo: ''
+moreNote: + 23 अन्य शिक्षक — पूरी सूची विंग कार्यालय में उपलब्ध
