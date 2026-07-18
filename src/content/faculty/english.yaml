@@ -1,18 +1,36 @@
 wing: english
-teacherCount: 32
+teacherCount: 11
 principal:
-  name: "Mrs. S. Thomas"
-  title: "Principal — English Medium Wing"
-  bio: "M.A. (English), B.Ed. · 22 years in education · with the school since 2009."
+  name: Mrs. DR. Manisha Choudhary
+  title: Principal — English Medium Wing
+  bio: B.Com , M.Com , MBA , B.ed , P.hd(Management)
 teachers:
-  - name: "Mr. D. Joseph"
-    role: "Vice Principal · Mathematics, IX–XII"
-  - name: "Ms. R. Kapoor"
-    role: "Science coordinator · Physics, XI–XII"
-  - name: "Mrs. A. Fernandes"
-    role: "Primary in-charge · Nursery–V"
-  - name: "Mr. K. Singh"
-    role: "English & Social Science, VI–X"
-  - name: "Ms. N. Verma"
-    role: "Chemistry & Biology, IX–XII"
-moreNote: "+ 27 more teachers — full list available at the wing office"
+  - name: Mr. Rahul Soni
+    role: TGT English
+  - name: Ms. Mukesh Gora
+    role: TGT Social Science
+  - name: Mr. Lalit Anchara
+    role: TGT Maths
+  - name: Mr. Mukesh Garwa
+    role: TGT Hindi
+  - name: Mr. Ranjeet Bhincher
+    role: TGT Science
+  - name: Mr. Gomaram khateek
+    role: TGT Maths
+    photo: ''
+  - name: Ms. Asha Sharma
+    role: PRT Social Science
+    photo: ''
+  - name: Ms. Krishna Sharma
+    role: PRT English
+    photo: ''
+  - name: Mr. Durgesh Dudi
+    role: PRT Maths
+    photo: ''
+  - name: Ms. Shushma Rathore
+    role: PRT English
+    photo: ''
+  - name: Ms. Rinku
+    role: PRT Maths
+    photo: ''
+moreNote: + 5 more teachers — full list available at the wing office
