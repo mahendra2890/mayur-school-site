@@ -1,27 +1,14 @@
 wing: english
-year: 2026
-passRate12: "98%"
-above90: 41
+year: 2025
+passRate12: 100%
+above90: 25
 toppers:
-  - name: "Priya Sharma"
-    stream: "XII · Science"
-    percent: "97.4%"
-  - name: "Arjun Meena"
-    stream: "XII · Commerce"
-    percent: "96.2%"
-  - name: "Sana Khan"
-    stream: "XII · Humanities"
-    percent: "95.8%"
+  - name: SUMIT DUKIYA
+    stream: 12 SCIENCE
+    percent: 98.20%
+    photo: ''
 history:
-  - batch: "2025"
-    pass10: "100%"
-    pass12: "97%"
-    topper: "Neha Rathi · 96.6%"
-  - batch: "2024"
-    pass10: "98%"
-    pass12: "96%"
-    topper: "Vikram Jat · 95.8%"
-  - batch: "2023"
-    pass10: "99%"
-    pass12: "95%"
-    topper: "Ritu Sharma · 96.0%"
+  - batch: '2025'
+    pass10: 100%
+    pass12: 100%
+    topper: SHIVANI CHOUDHARY  97.60%
